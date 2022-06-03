@@ -1,0 +1,126 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Flight Test Api",
+    "description": "This is the api for all the integral Test endpoints",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "basePath": "/api/comment",
+  "tags": [
+    {
+      "name": "Comment",
+      "description": "This is the api for all the integral Test endpoints"
+    }
+  ],
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/create": {
+      "post": {
+        "tags": ["Comment"],
+        "description": "Create a comment in the system",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "comment",
+            "in": "body",
+            "required": true,
+            "description": "Description of comment",
+            "value": "This is a comment"
+          },
+          {
+            "name": "tags",
+            "in": "body",
+            "description": "category label",
+            "value": "Important"
+          },
+          {
+            "name": "userId",
+            "in": "body",
+            "required": true,
+            "description": "Id of user",
+            "value": "userId1"
+          },
+          {
+            "name": "flightId",
+            "in": "body",
+            "required": true,
+            "description": "Id of flight",
+            "value": "flightId1"
+          }
+        ],
+        "produces": ["application/json"],
+        "security": {
+          "ApiKeyAuth": []
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a json with the data of the comment create",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          },
+          "403": {
+            "description": "ERROR_CREATE_COMMENT"
+          }
+        }
+      }
+    },
+    "comments/{flightId}": {
+      "get": {
+        "tags": ["Comment"],
+        "description": "Get all comments for a flightId",
+        "parameters": [
+          {
+            "name": "flightId",
+            "in": "path",
+            "required": true,
+            "description": "Id of the flight from which the comments are wanted",
+            "value": "flightId1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a json with the data of all the comments belonging to the flight",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          },
+          "403": {
+            "description": "ERROR_GET_COMMENT"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Comment": {
+      "required": ["comment", "userId", "flightId"],
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "comment": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "flightId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    }
+  }
+}

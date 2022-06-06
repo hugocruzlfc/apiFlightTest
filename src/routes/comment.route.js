@@ -5,6 +5,7 @@ const commentController = require('../controllers/comment.controller');
 const router = express.Router();
 
 router.get('/comments/:flightId', commentController.commetByFlightId);
+router.post('/comments', commentController.commetByParams);
 router.post('/create', validatorCreateComment, commentController.createComment);
 
 module.exports = router;

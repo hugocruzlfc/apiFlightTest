@@ -25,7 +25,7 @@ app.use(
   }),
 );
 
-app.use(cors());
+// app.use(cors());
 
 //simple route info
 app.get('/', (request, response) => {
@@ -37,11 +37,15 @@ app.get('/', (request, response) => {
 //ROUTES
 //Comment
 const commentRoutes = require('./routes/comment.route');
-app.use('/api/comment', commentRoutes);
+app.use('/apiTest/comment', commentRoutes);
+
+//Flight
+const flightRoutes = require('./routes/flight.route');
+app.use('/apiTest/flight', flightRoutes);
 
 // //swagger doc
 app.use(
-  '/api/comment/api-docs',
+  '/apiTest/comment/api-docs',
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocument),
 );

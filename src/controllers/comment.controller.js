@@ -14,7 +14,6 @@ const optionsPaginate = {
 
 exports.commetByFlightId = async (req, res) => {
   const flightIdParam = req.params.flightId;
-  console.log(flightIdParam);
   try {
     const allCommentByFlightId = await commentModel.paginate(
       {
@@ -45,5 +44,28 @@ exports.createComment = async (req, res) => {
     });
   } catch (e) {
     handleHttpError(res, 'ERROR_CREATE_COMMENT', 403);
+  }
+};
+
+/**
+ *Function that returns all the comments belonging to a FlightId
+ * @param {string} (flightId) Identifier of the flight from which comments are to be returned
+ * @param {string} (paramFind) Identifier of the search parameter
+ * @returns {Array} Returns an array of elements that match the comment field with the search pattern
+ */
+
+exports.commetByParams = async (req, res) => {
+  const { flightId, paramFind } = req.body;
+  let paramToLike = `.*${paramFind}.*`;
+  let flag = 'i';
+  const dynamicRegExp = new RegExp(`${paramToLike}`, flag);
+  try {
+    const allCommentBySearch = await commentModel.find({
+      flightId: flightId,
+      comment: dynamicRegExp,
+    });
+    res.send({ status: 200, message: 'OK', allCommentBySearch });
+  } catch (e) {
+    handleHttpError(res, 'ERROR_GET_COMMENT', 403);
   }
 };
